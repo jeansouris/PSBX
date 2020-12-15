@@ -1,0 +1,73 @@
+---
+title: "Caret"
+author: "Jean Souris"
+date: "15/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#install.packages("caret")
+library(caret)
+
+Caret est utilisé pour le Machine Learning.
+
+Caret est un des plus gros package de R, qui permet de faire de la prediction de données.Il y a 2 types de modèle que nous pouvons prédire avec Caret : la CLassification, qui relève le côté qualitatif, et la regression, qui elle se concentre sur le côté quantitatif.
+
+Dans ce dossier, nous allons utiliser une fonction qui nous montrera la séparation des données d'une data frame.
+
+Mais, avant de passer à l'application, nous allons avoir besoin des packages "lattice", "ggplot2", et "Caret", afin d'exploiter les données que nous souhaitons :
+
+
+#install.packages("lattice")
+
+Ensuite, nous allons les appeler avec la fonction library :
+
+```{r}
+
+library(lattice)
+library(ggplot2)
+library(caret)
+```
+
+
+## Création d'un tableau séparant les données en gardant l'écart-type global : createDataPartition
+
+
+Tout dabord, nous allons générer un nombre aléatoire grâce à la fonction "set.seed" :
+```{r}
+set.seed(2020)
+
+```
+
+Maintenant que notre chiffre aléatoire est généré, nous pouvons créer nos différents tableaux grâce à la fonction "creatDataPartition":
+
+```{r}
+Essaie_1 <- createDataPartition(iris$Species, p = .6, 
+                                  list = FALSE, 
+                                  times = 3)
+head(Essaie_1)
+
+```
+
+Notre tableau a donc généré des nombres aléatoire entre les différentes espèces d'iris. Dans cet exemple, nous avons séparé les données de la manière 60% - 40%.
+Le terme "liste = FALSE" permet d'éviter que les données ne se retrouve sous forme de liste au lieu de tableau.(comme vous pourrez le voir ci-dessous) :
+
+```{r}
+Essaie_2 <- createDataPartition(iris$Species, p = .6, 
+                                list = TRUE, 
+                                times = 2)
+head(Essaie_2)
+```
+***
+
+Merci de votre lecture !
+
+Retrouvez tous mes dossiers juste ici :
+![Caption](favicon-github.ico) [Mon Github](https://github.com/jeansouris/PSBX.git)
+
+Et merci à cette source de m'avoir aidé !
+[Source](http://topepo.github.io/caret/data-splitting.html#simple-splitting-based-on-the-outcome)
+

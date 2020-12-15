@@ -1,0 +1,164 @@
+---
+title: "dplyrJean"
+author: "Jean Souris"
+date: "10/12/2020"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Introduction :
+
+Tout d'abord, il faut installer le package dplyr pour cette demonstration :
+```{r}
+#install.packages("dplyr")
+library("dplyr")
+
+```
+
+
+
+
+Dplyr sert à la manipulation de bases de données sous forme de tableau, donc pouvoir les réarranger, les filtrer, les trier, plein beaucoup d'autres fonctions.
+
+Mais, avant de pouvoir modifier une base de donnée, il faut en selectionner une ; c'est pour cela que nous allons utiliser les fonctions ci-dessous :
+
+```{r}
+#install.packages("nycflights13")
+library("nycflights13")
+```
+
+
+Après avoir installé le package contenant notre base de donnée, nous allons seelctionner 2 tableaux que nous utiliserons au cours de cette démonstration :
+
+```{r}
+data(flights)
+data(airports)
+```
+
+
+Dans cette partie, nous allons voir 3 principaux verbes que nous pouvons utiliser sur dplyr.
+
+# Slice
+
+Le premier verbe que nous allons voir est "slice" et permet globalement de selectionner à notre guise différentes lignes d'un tableau afin de les afficher :
+
+Nous allons afficher une certaine ligne de la collone "airlines" et voir ce qui s'affiche :
+
+```{r}
+slice(airports, 537)
+```
+
+
+Nous avons donc accès à plusieurs informations d'un aéroport précis, tel que ses coordonnées géographiques, à savoir lattitude, longitude, même altitude mais aussi à son nom raccourcis et sa zone géographique.
+
+La fonction slice nous permet également de selectionner plusieurs lignes à la fois en utilisant un interval :
+```{r}
+slice(airports, 9:27)
+
+```
+
+Ici, nous avons selectionné les lignes 9 à 27 du tableau de données des aéroports.
+
+Hormis la selection de lignes au choix d'un tableau, la fonction slice nous permet également d'en selectionner de manière aléatoire grâce au verbe "slice_sample" :
+```{r}
+airports %>% slice_sample(n=6)
+slice(airports, 1:6)
+```
+
+Comme vous pouvez le constater, le premier tableau a généré aléatoirement 6 lignes du tableua aéroport, lorsque le second a slectionné les 6 premières.
+
+NB : Nous pouvons également tirer des lignes du tableau en partant du bas ou du haut grâce aux verbes "slice_head" et "slice_tail" :
+```{r}
+airports %>% slice_head(n=3)
+airports %>% slice_tail(n=3)
+```
+
+
+De même, nous pouvons tirer au hasard 5% de lignes de notre tableau en utilisant la fonction "prop" tel que :
+
+```{r}
+airports %>% slice_sample(prop = 0.05)
+```
+
+
+Il y a également des verbes tels que "slice_min" et "slice_max" qui prennent en compte un argument supplémentaire du tableua choisi afin de filtrer son choix.
+Par exemple, si je souhaite connaitre les 7 aéroports étant le plus bas, donc ayant la plus faible altitude, j'utilise la fonction suivante :
+
+```{r}
+airports %>% slice_max(alt, n=7)
+summary(flights)
+```
+
+
+
+De même si je souhaite connaitres les 10 vols les plus courts effectués en 2013 :
+
+```{r}
+flights %>% slice_min(distance, n=10)
+```
+
+# Select :
+
+Le second verbe que nous allons utiliser s'intitule "select", et, comme son nom l'indique nous permet de selectionner des données d'un tableau et plus précisement des collones de celui-ci tel que :
+
+```{r}
+select(flights, origin, time_hour)
+```
+
+Ici nous avons donc les collones nous indiquant l'origine et l'heure de nos vols.
+
+Nommer toutes les colonnes peut paraître rébarbatif, nous pouvons donc selectionner un interval contenant les colonnes que nous souhaitons tel que :
+
+```{r}
+select(flights, dep_time:dep_delay)
+```
+
+
+Les colonnes situées entre "dep_time" et dep"delay" comprises sont donc affichées.
+
+En revanche, si, avant le nom de chaque colonne nous faisons apparaître le symbole "-", alors le tableau s'affiche entièrement en ayant soustrait les colonnes selectionnées :
+
+```{r}
+select(flights, -origin, -time_hour)
+```
+
+
+Il y a également la possibilité d'appliquer des sortes de filtres, ou des conditions à nos tableaux avec les tremes "starts_with", "ends_with", "contains" ou encore "matches" :
+
+
+```{r}
+select(airports, starts_with("A"))
+```
+
+
+Dans cet exemple, j'ai affiché la seule colonne de ma table "airports" qui commençait par un "a".
+
+# Rename :
+
+Le troisième verbe que nous allons voir est un dérivé de select et se nomme "rename".
+
+Il nous permet de choisir certaines colonnes et de les renommer afin qu'elle soit plus lisible.
+
+Par exemple :
+
+```{r}
+rename(airports, altitude = alt, time_zone = tzone)
+```
+
+
+Nous avons réussi à renommer 2 colonnes du tableau "airports" initiale.
+
+Enfin, si les surnoms que nous souhaitons donner contiennent des espaces ou des caractères spéciaux tels que "é", "è", "ù", etc, nous pouvons utiliser l'écriture ci-dessous :
+
+```{r}
+rename(airports, "altitude du vol" = alt, "zone horaire" = tzone)
+```
+***
+
+Je tenais à remercier cette source pour sa grande aide !
+[Source](https://juba.github.io/tidyverse/10-dplyr.html#autres-fonctions-utiles)
+
+Vous pouvez retrouver tous mes dossiers juste ici !
+
+![Caption](favicon-github.ico) [Mon Github](https://github.com/jeansouris/PSBX)

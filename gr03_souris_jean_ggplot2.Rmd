@@ -1,0 +1,104 @@
+---
+title: "ggplot2"
+author: "Jean Souris"
+date: "13/12/2020"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+
+# Introduction
+
+Avant de commencer cette démonstration, je comptais remercier le Github suivant, qui m'a grandement aidé lors de la réalisation de ce travail :
+
+Il existe plusieurs méthodes pour mettre en page différentes représentations graphiques de nos données.
+
+```{r}
+library(tidyverse)
+```
+
+Je vais maintenant importer une base de donnée nommée 'quesitonr', qui contient les résultats partiels concernant les communes de plus de 2000 habitants de France métropolitaine :
+
+
+```{r}
+#Je met un"#" devant cet argument car sinon il ne me laisse pas Kniter ce fichier en PDF :
+
+#install.packages("questionr")
+```
+
+Ensuite, je vais la selectionner juste en dessous :
+
+```{r}
+library(questionr)
+data(rp2012)
+```
+
+
+Mais, avant de créer mon grapahique, je dois créer une sorte de raccourcis qui me permet de "filtrer" ma base de donnée initiale :
+
+
+```{r}
+rp <- filter(rp2012, departement %in% c("Hauts-de-Seine", "Yvelines", "Essonne", "Seine-Saint-Denis", "Val-de-Marne", "Vald'Oise"))
+```
+
+# La boîte à moustache : geom_boxplot
+
+La représentation graphique que j'ai choisi s'intitule "geom_boxplot" qui, en français représente une boîte à moustache en statistiques:
+
+```{r}
+ggplot(rp) + geom_boxplot(aes (x = departement, y = maison))
+```
+
+
+
+Voici donc une boite à moustache me représentant la répartition du taux de maisons en fonction des départmeent que j'ai selectionnés.
+
+Mais, grâce à ggplot2, je peux également en modifier sa couleur, tout comme la largeur de chaque boîtes proportionnelement :
+```{r}
+ggplot(rp) + geom_boxplot(aes(x = departement, y = maison), varwidth = TRUE)
+```
+
+
+J'obtiens maintenant une boite à moustache, avec la taille de chaque boite proportionnelle avec leur nombre de maison par département et ce, grâce à l'objet 'varwidth' que nous avons rajouté.
+
+
+Pour en finir avec les boites à moustaches, il m'est possible d'accumuler plusieurs fonctions geom afin de superposer plusieurs statistiques ensembles, ou, comme dans ce cas-ci pour rendre notre boite à moustache plus précise :
+
+```{r}
+ggplot(rp) + geom_boxplot(aes(x = departement, y = maison)) + geom_jitter(aes(x = departement, y = maison), col = "blue", alpha = 0.3)
+
+```
+                          
+
+Dans ce graphique, grâce au geom "jitter", qui est plus précis que le geom "point" pour cette demo, nous pouvons avoir une odée plus précise de la répartition des maisons par département.
+
+# Le Diagramme de Violon :
+
+Je vais maintenant passer au diagramme de violon, aussi appelé geom_violin dans R.
+
+Globalement, elle transmet les mêmes statistiques que la boîte à moustache, mais sous une forme déjà proportionnelle en fonction des boîtes, qui sont sur une même echelle graphique..
+Pour en avoir un bon exemple, nous allons prendre pour chaque futurs graphes les mêmes statistique que les boîtes à moustaches vues.
+```{r}
+ggplot(rp) + geom_violin(aes (x = departement, y = maison))
+
+```
+
+Voici donc la première représentation de notre boîte à moustache mais sous forme de diagramme de violon.
+
+
+Tout comme la boîte à moustache, il nous est possible d'en modifier la couleur, que ce soit celle des contours, avec l'objet "col", ou bien l'intérieur avec "fill" :
+```{r}
+ggplot(rp) + geom_violin(aes (x = departement, y = maison), col = "red", fill ="lightblue")
+```
+
+***
+
+Je tenais à remercier cette source pour sa grande aide !
+[Source](https://juba.github.io/tidyverse/08-ggplot2.html)
+
+Vous pouvez retrouver tous mes dossiers juste ici !
+
+![Caption](favicon-github.ico) [Github de Jean](https://github.com/jeansouris/PSBX)
+

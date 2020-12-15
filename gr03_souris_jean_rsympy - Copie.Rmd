@@ -1,0 +1,124 @@
+---
+title: "R Sympy"
+author: "Jean Souris"
+date: "14/12/2020"
+output: pdf_document
+---
+
+#Introduction
+
+Dans ce dossier, nous allons parler de R Sympy, une bibliothèque Python que nous pouvons utiliser dans R.
+Il vise à devenir un système informatique d’algèbre complet tout en gardant le code aussi simple que possible afin d’être compréhensible et facilement extensible.
+SymPy est entièrement écrit en Python.
+
+Afin de pouvoir utiliser correctement r Sympy, nous devons installer les packages "rSympy", "rJava", "rJython", ainsi que "rjson".
+
+```{r}
+#install.packages("rSymPy")
+#install.packages("rJava")
+#install.packages("rJython")
+#install.packages("rjson")
+```
+
+
+
+De plus, il semblerait que l'installation du logiciel Java sur l'ordinateur emmettant les requêtes soit obligatoire.
+
+Une fois installés, comme à chaque exercices, nous devons les appeler grâce à la fonction "library" :
+
+```{r}
+library(rJava)
+library(rSymPy)
+library(rootSolve)
+```
+
+Comme dit plus haut, rSympy nous permet deffectuer des calculs algébriques basiques
+
+
+## Calculs algébriques basiques :
+
+### les racines carrés  :
+
+ ** note : j'ai dû abandonner la recherche de la racine cubique, car après l'installation de 4 packages, dont kader, mes recherches n'ont pas porté leurs fruits.
+
+Afin d'executer la fonction "racine carré", j'utilise la fonction "sqrt' :
+
+```{r}
+sympy("sqrt('x')")
+```
+
+
+
+Ainsi, j'obtiens la formule ci dessous :
+  
+  \[
+    
+    \sqrt{x} = x^{1/2}
+    
+    \]
+
+## Dériver des fonctions :
+
+Afin de pouvoir dériver des fonctions, nous utilisons la fonction "diff" :
+
+
+
+```{r}
+
+sympy("diff(sin(2*x), x, 1)")
+
+```
+
+La fonction "diff" est composée de 2 critères minimum :
+  
+Dans le premier terme, nous mettons la fonction que nous souhaitons dériver, donc dans l'exemple du dessus $$ sin(2x)$$.
+Ce qui, une fois dérivée nous donne $$ 2cos(2x) $$.
+
+En écriture nous avons ceci :
+  Soit
+  
+  \[ 
+    f(x)=sin(2x)
+    
+    \]
+  \[ 
+    f(x) = 2cos(2x)
+    \]
+    
+En second terme, nous avons le nombre de fois où la fonction peut être dérivée.
+
+Voici un second exemple d'une fonction que nous allons dériver 2 fois :
+
+
+```{python}
+sympy("diff((2*x**3 + 5*x**2), x, 2)")
+```
+
+
+## Trouver la limite d'une fonction :
+  
+R Sympy nous permet également de trouver les limites d'une fonction, en tapant simplement la fonction "limite" suivi de la fonction que l'on souhaite étudier, puis du terme qui va tendre vers le chiffre souhaité, et enfin du chiffre vers lequel il tend (à savoir 0, \infty, ou encore -\infty).
+
+```{python}
+sympy("limit(1/x, x, 0)")
+
+```
+
+Ici, nous avons donc :
+
+  \[
+    
+    \lim\limits_{\substack{x \rightarrow 0 \\}} f(\frac{1}{x}) = +\infty
+    
+    \]
+
+***
+  
+Merci de votre lecture !
+  
+Retrouvez tous mes dossiers juste ici :
+![Caption](favicon-github.ico) [Mon Github](https://github.com/jeansouris/PSBX)
+
+Et merci à ces sources de m'avoir aidé !
+[Source](https://cran.r-project.org/web/packages/rSymPy/rSymPy.pdf)
+[Source 2](https://github.com/liu-jiayue/psbx/blob/main/tutoriel_latex/tutoriel_latex.pdf)
